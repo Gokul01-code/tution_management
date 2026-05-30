@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduVault — Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .dashboard-welcome { max-width: 600px; margin: 3rem auto; text-align: center; padding: 2rem; }
+    .dashboard-welcome h2 { font-size: 2rem; margin-bottom: 0.5rem; }
+    .dashboard-welcome p { color: var(--text-muted); margin-bottom: 2rem; }
+    .nav-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem; }
+    .nav-card { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 1.5rem 1rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); background: var(--glass-bg); backdrop-filter: var(--glass-blur); transition: var(--transition); text-decoration: none; color: var(--text-primary); }
+    .nav-card:hover { background: var(--glass-bg-hover); border-color: var(--glass-border-accent); transform: translateY(-2px); }
+    .nav-card-icon { width: 48px; height: 48px; border-radius: var(--radius-md); background: var(--glass-bg-active); display: flex; align-items: center; justify-content: center; color: var(--purple-300); }
+    .nav-card-icon svg { width: 26px; height: 26px; }
+    .nav-card-label { font-weight: 600; font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <div class="dashboard-layout" id="dashboard-layout"></div>
+
+  <div id="toast" class="toast" role="alert" aria-live="polite" hidden>
+    <span id="toast-icon">✓</span>
+    <span id="toast-msg"></span>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="_sidebar_helper.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = initPage('dashboard', 'Dashboard');
+      if (!user) return;
+
+      const contentArea = $('#content-area');
+      contentArea.innerHTML = `
+        <div class="dashboard-welcome">
+          <h2>Welcome, ${escapeHtml(user.display)} 👋</h2>
+          <p>Select a section to get started</p>
+          <div class="nav-cards">
+            <a href="attendance.html" class="nav-card">
+              <div class="nav-card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
+              </div>
+              <span class="nav-card-label">Attendance</span>
+            </a>
+            <a href="session.html" class="nav-card">
+              <div class="nav-card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+              </div>
+              <span class="nav-card-label">Session Handled</span>
+            </a>
+            <a href="timetable.html" class="nav-card">
+              <div class="nav-card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+              </div>
+              <span class="nav-card-label">Timetable</span>
+            </a>
+            <a href="marks.html" class="nav-card">
+              <div class="nav-card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+              </div>
+              <span class="nav-card-label">Marks</span>
+            </a>
+            ${user.role === 'admin' ? `
+            <a href="students.html" class="nav-card">
+              <div class="nav-card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+              </div>
+              <span class="nav-card-label">Students</span>
+            </a>` : ''}
+          </div>
+        </div>`;
+    });
+  </script>
+</body>
+</html>
